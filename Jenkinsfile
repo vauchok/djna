@@ -1,4 +1,7 @@
-node('docker-agent') {
+pipeline {
+  agent {
+    label 'docker-agent'
+  }
 
   def branch_name = 'master'
   def artifact_home=/home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk
