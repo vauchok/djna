@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Test') {
             agent {
-                label {
+                docker {
                     reuseNode true
                     image 'jenkinsci/jnlp-slave'
                 }
