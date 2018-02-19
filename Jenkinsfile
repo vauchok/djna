@@ -1,11 +1,7 @@
-pipeline {
-  agent {
-    label 'docker-agent'
-  }
-  stages {
-    def branch_name = 'master'
-    def artifact_home=/home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk
-    def nexus_rep='http://172.17.0.3:8081/repository/artifactory'
+node('docker-agent') {  
+  def branch_name = 'master'
+  def artifact_home=/home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk
+  def nexus_rep='http://172.17.0.3:8081/repository/artifactory'
 
   stage('Define Java/AndroidSDK paths') {
     sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
@@ -32,5 +28,4 @@ pipeline {
   stage('Pushing artifact to nexus'){
     sh "curl -v -u nexus:nexus --upload-file ${artifact_home}/app-release.apk ${nexus_rep}/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
   }
- }
 }
