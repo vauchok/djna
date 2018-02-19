@@ -1,11 +1,5 @@
 node('docker-agent') {
 
-  stage('Define variables') {
-    def branch_name = 'master'
-    def artifact_home=/home/jenkins/workspace/docker_slave/app/build/outputs/apk
-    def nexus_rep='http://172.17.0.3:8081/repository/artifactory'
-  }
-
   stage('Define Java/AndroidSDK paths') {
     sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
         export PATH=$JAVA_HOME/bin:$PATH && \
@@ -14,7 +8,7 @@ node('docker-agent') {
   }
   
   stage('Pull from Git') {
-    checkout scm: [$class: 'GitSCM', branches: [[name: "*/${branch_name}"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
+    checkout scm: [$class: 'GitSCM', branches: [[name: "*/master"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
   }
   
   stage('Creating the sign') {
@@ -29,6 +23,6 @@ node('docker-agent') {
   }
 
   stage('Pushing artifact to nexus'){
-    sh "curl -v -u nexus:nexus --upload-file ${artifact_home}/app-release.apk ${nexus_rep}/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
+    sh "curl -v -u nexus:nexus --upload-file /home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk/app-release.apk http://172.17.0.3:8081/repository/artifactory/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
   }
 }
