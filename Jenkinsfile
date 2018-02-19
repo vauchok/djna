@@ -9,7 +9,9 @@ pipeline {
    
    stages {
        stage("first") {
+         steps{
            sh "echo ${branch_name}"
+         }
        }
    }
 }
