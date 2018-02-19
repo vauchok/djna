@@ -1,11 +1,12 @@
 node('docker-agent') {
-
-  stage('Define Java/AndroidSDK paths') {
-    sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
-        export PATH=$JAVA_HOME/bin:$PATH && \
-        export ANDROID_HOME=/opt/android-sdk-linux && \
-        export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
-  }
+/**
+*  stage('Define Java/AndroidSDK paths') {
+*    sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
+*        export PATH=$JAVA_HOME/bin:$PATH && \
+*        export ANDROID_HOME=/opt/android-sdk-linux && \
+*        export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+*  }
+*/
   
   stage('Pull from Git') {
     checkout scm: [$class: 'GitSCM', branches: [[name: "*/master"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
