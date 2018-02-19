@@ -1,8 +1,10 @@
 node('docker-agent') {
 
-  def branch_name = 'master'
-  def artifact_home=/home/jenkins/workspace/docker_slave/app/build/outputs/apk
-  def nexus_rep='http://172.17.0.3:8081/repository/artifactory'
+  stage('Define variables') {
+    def branch_name = 'master'
+    def artifact_home=/home/jenkins/workspace/docker_slave/app/build/outputs/apk
+    def nexus_rep='http://172.17.0.3:8081/repository/artifactory'
+  }
 
   stage('Define Java/AndroidSDK paths') {
     sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
