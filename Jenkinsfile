@@ -1,13 +1,12 @@
 node('docker-agent') {
-/**
-*  stage('Define Java/AndroidSDK paths') {
-*    sh "export JAVA_HOME=/opt/jdk1.8.0_161 && \
-*        export PATH=$JAVA_HOME/bin:$PATH && \
-*        export ANDROID_HOME=/opt/android-sdk-linux && \
-*        export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
-*  }
-*/
-  
+
+  stage('Define Java/AndroidSDK paths') {
+    sh "export JAVA_HOME=/opt/jdk1.8.0_161"
+    sh "export PATH=$JAVA_HOME/bin:$PATH"
+    sh "export ANDROID_HOME=/opt/android-sdk-linux"
+    sh "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+  }
+
   stage('Pull from Git') {
     checkout scm: [$class: 'GitSCM', branches: [[name: "*/master"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
   }
@@ -26,4 +25,5 @@ node('docker-agent') {
   stage('Pushing artifact to nexus'){
     sh "curl -v -u nexus:nexus --upload-file /home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk/app-release.apk http://172.17.0.3:8081/repository/artifactory/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
   }
+
 }
