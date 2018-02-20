@@ -16,7 +16,7 @@ node('docker-agent') {
   }
 
   stage('Pushing artifact to nexus'){
-    sh "curl -v -u nexus:nexus --upload-file /home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk/app-release.apk http://172.17.0.3:8081/repository/artifactory/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
+    sh "curl -v -u nexus:nexus --upload-file /home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk/app-release.apk http://172.17.0.2:8081/repository/artifactory/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
   }
 
 }
