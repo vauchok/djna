@@ -11,9 +11,7 @@ services:
     volumes:
       - /home/vagrant/jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock 
-    networks:
-      custom:
-        ipv4_address: 172.18.0.2
+    network_mode: bridge
 
   nexus:
     user: root
@@ -23,14 +21,5 @@ services:
       - 8081:8081
     volumes:
       - /home/vagrant/nexus-data:/nexus-data
-    networks:
-      custom:
-        ipv4_address: 172.18.0.3
+    network_mode: bridge
 
-networks:
-  custom:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.1/16 
