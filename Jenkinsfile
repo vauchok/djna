@@ -1,7 +1,7 @@
 node('docker-agent') {
-
+  def branch = 'master'
   stage('Pull from Git') {
-    checkout scm: [$class: 'GitSCM', branches: [[name: "*/master"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
+    checkout scm: [$class: 'GitSCM', branches: [[name: "*/${branch}"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
   }
   
   stage('Creating the sign') {
