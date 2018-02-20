@@ -1,5 +1,7 @@
 node('docker-agent') {
   def branch = 'master'
+  def url = 'http://172.17.0.2:8081/repository/artifactory/org/android'
+  def file_path = "/home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk"
   stage('Pull from Git') {
     checkout scm: [$class: 'GitSCM', branches: [[name: "*/${branch}"]], userRemoteConfigs: [[url: 'https://github.com/vauchok/intro_android_demo.git/']]]
   }
@@ -16,7 +18,7 @@ node('docker-agent') {
   }
 
   stage('Pushing artifact to nexus'){
-    sh "curl -v -u nexus:nexus --upload-file /home/jenkins/workspace/${JOB_NAME}/app/build/outputs/apk/app-release.apk http://172.17.0.2:8081/repository/artifactory/org/android/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
+    sh "curl -v -u nexus:nexus --upload-file ${file_path}/app-release.apk ${url}/${BUILD_NUMBER}/android-${BUILD_NUMBER}.app-release.${BUILD_TIMESTAMP}"
   }
 
 }
